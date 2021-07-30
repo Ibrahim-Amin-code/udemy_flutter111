@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:udemy_flutter111/modules/archived_tasks/archived_tasks_screen.dart';
-import 'package:udemy_flutter111/modules/done_etasks/done_tasks_screen.dart';
-import 'package:udemy_flutter111/modules/new_tasks/new_tasks_screen.dart';
+import 'package:udemy_flutter111/modules/todo_app/archived_tasks/archived_tasks_screen.dart';
+import 'package:udemy_flutter111/modules/todo_app/done_etasks/done_tasks_screen.dart';
+import 'package:udemy_flutter111/modules/todo_app/new_tasks/new_tasks_screen.dart';
 import 'package:udemy_flutter111/shared/cubit/states.dart';
 import 'package:udemy_flutter111/shared/network/remote/cache_helper.dart';
 

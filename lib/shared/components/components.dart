@@ -1,9 +1,7 @@
-// import 'dart:js';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:udemy_flutter111/modules/web_view/web_view_screen.dart';
+import 'package:udemy_flutter111/modules/news_app/web_view/web_view_screen.dart';
 import 'package:udemy_flutter111/shared/cubit/cubit.dart';
 
 Widget defaultButton({
@@ -31,6 +29,18 @@ Widget defaultButton({
         ),
       ),
     );
+
+
+Widget defaultTextButton({
+  @required Function function,
+  @required String text,
+
+}) => TextButton(
+    onPressed: function,
+    child: Text(text.toUpperCase()));
+
+
+
 
 Widget defaultFormFiled({
   @required TextEditingController controller,
@@ -173,32 +183,41 @@ Widget myDivider() => Container(
       color: Colors.grey[300],
     );
 
-customCachedNetworkImage({String url, BuildContext context}) {
-  try {
-    if (url == null || url == '') {
-      return Container(
-        child: Icon(Icons.error),
-        // Image.asset("lib/images/logo icon.png"),
-      );
-    } else {
-      return Container(
-        color: Colors.transparent,
-        width: MediaQuery.of(context).size.width,
-        child: (Uri.parse(url).isAbsolute)
-            ? CachedNetworkImage(
-                imageUrl: url,
-                fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              )
-            : Icon(Icons.error),
-      );
-    }
-  } catch (e) {
-    print(e.toString());
-  }
-}
+
+
+//
+// customCachedNetworkImage({String url, BuildContext context}) {
+//
+//   try {
+//     if (url == null || url == '') {
+//       return Container(
+//         child: Icon(Icons.error),
+//         // Image.asset("lib/images/logo icon.png"),
+//       );
+//     } else {
+//       return Container(
+//         color: Colors.transparent,
+//         width: MediaQuery.of(context).size.width,
+//         child: (Uri.parse(url).isAbsolute)
+//             ? CachedNetworkImage(
+//                 imageUrl: url,
+//                 fit: BoxFit.cover,
+//                 placeholder: (context, url) =>
+//                     Center(child: CircularProgressIndicator()),
+//                 errorWidget: (context, url, error) => Icon(Icons.error),
+//               )
+//             : Icon(Icons.error),
+//       );
+//     }
+//   } catch (e) {
+//     print(e.toString());
+//   }
+// }
+
+
+
+
+
 
 Widget buildArticleItem(article, BuildContext context) => InkWell(
       onTap: ()
@@ -214,14 +233,18 @@ Widget buildArticleItem(article, BuildContext context) => InkWell(
               height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  image: NetworkImage('${article['urlToImage']}'),
+                  fit: BoxFit.cover
+                )
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: customCachedNetworkImage(
-                  url: '${article['urlToImage']}',
-                  context: context,
-                ),
-              ),
+              // child: ClipRRect(
+              //   borderRadius: BorderRadius.circular(20),
+              //   child: customCachedNetworkImage(
+              //     url: '${article['urlToImage']}',
+              //     context: context,
+              //   ),
+              // ),
 
               //     child: CachedNetworkImage(
 
@@ -294,6 +317,9 @@ Widget buildArticleItem(article, BuildContext context) => InkWell(
       ),
     );
 
+
+
+
 Widget articleBuilder(list, context ,{isSearch = false}) => ConditionalBuilder(
       condition: list.length > 0,
       builder: (context) => ListView.separated(
@@ -307,8 +333,16 @@ Widget articleBuilder(list, context ,{isSearch = false}) => ConditionalBuilder(
 
 
 void navigateTo(context , widget) => Navigator.push(
-
     context,
     MaterialPageRoute(
       builder: (context) => widget,
     ));
+
+
+void navigateAndFinish(context , widget) => Navigator.pushAndRemoveUntil(
+  context,
+  MaterialPageRoute(
+    builder: (context) => widget,
+  ),
+    (Route<dynamic> route) => false,
+);

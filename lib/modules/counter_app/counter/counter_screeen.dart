@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:udemy_flutter111/modules/counter/cubit/cubit.dart';
-import 'package:udemy_flutter111/modules/counter/cubit/states.dart';
+import 'package:udemy_flutter111/modules/counter_app/counter/cubit/cubit.dart';
+import 'package:udemy_flutter111/modules/counter_app/counter/cubit/states.dart';
+
 
 class CounterScreen extends StatelessWidget {
   @override
