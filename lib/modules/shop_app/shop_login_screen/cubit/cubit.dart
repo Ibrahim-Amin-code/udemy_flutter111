@@ -32,7 +32,7 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>
   @required String password,
 })
  {
-   emit(ShopLoginLoadingState());
+   emit(ShopRegisterLoadingState());
    DioHelper.postData(
        url: LOGIN,
        data: {

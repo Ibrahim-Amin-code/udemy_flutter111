@@ -1,8 +1,10 @@
-
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:udemy_flutter111/layout/shop_app/cubit/cubit.dart';
 import 'package:udemy_flutter111/modules/news_app/web_view/web_view_screen.dart';
 import 'package:udemy_flutter111/shared/cubit/cubit.dart';
+import 'package:udemy_flutter111/shared/styles/colors.dart';
 
 Widget defaultButton({
   double width = double.infinity,
@@ -30,17 +32,11 @@ Widget defaultButton({
       ),
     );
 
-
 Widget defaultTextButton({
   @required Function function,
   @required String text,
-
-}) => TextButton(
-    onPressed: function,
-    child: Text(text.toUpperCase()));
-
-
-
+}) =>
+    TextButton(onPressed: function, child: Text(text.toUpperCase()));
 
 Widget defaultFormFiled({
   @required TextEditingController controller,
@@ -183,8 +179,6 @@ Widget myDivider() => Container(
       color: Colors.grey[300],
     );
 
-
-
 //
 // customCachedNetworkImage({String url, BuildContext context}) {
 //
@@ -214,14 +208,8 @@ Widget myDivider() => Container(
 //   }
 // }
 
-
-
-
-
-
 Widget buildArticleItem(article, BuildContext context) => InkWell(
-      onTap: ()
-      {
+      onTap: () {
         navigateTo(context, WebViewScreen('${article['url']}'));
       },
       child: Padding(
@@ -232,12 +220,10 @@ Widget buildArticleItem(article, BuildContext context) => InkWell(
               width: 120,
               height: 120,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: NetworkImage('${article['urlToImage']}'),
-                  fit: BoxFit.cover
-                )
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                      image: NetworkImage('${article['urlToImage']}'),
+                      fit: BoxFit.cover)),
               // child: ClipRRect(
               //   borderRadius: BorderRadius.circular(20),
               //   child: customCachedNetworkImage(
@@ -317,10 +303,7 @@ Widget buildArticleItem(article, BuildContext context) => InkWell(
       ),
     );
 
-
-
-
-Widget articleBuilder(list, context ,{isSearch = false}) => ConditionalBuilder(
+Widget articleBuilder(list, context, {isSearch = false}) => ConditionalBuilder(
       condition: list.length > 0,
       builder: (context) => ListView.separated(
           physics: BouncingScrollPhysics(),
@@ -328,21 +311,149 @@ Widget articleBuilder(list, context ,{isSearch = false}) => ConditionalBuilder(
               buildArticleItem(list[index], context),
           separatorBuilder: (context, index) => myDivider(),
           itemCount: 10),
-      fallback: (context) => isSearch ? Container() : Center(child: CircularProgressIndicator()),
+      fallback: (context) =>
+          isSearch ? Container() : Center(child: CircularProgressIndicator()),
     );
 
-
-void navigateTo(context , widget) => Navigator.push(
+void navigateTo(context, widget) => Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) => widget,
     ));
 
+void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+      (Route<dynamic> route) => false,
+    );
 
-void navigateAndFinish(context , widget) => Navigator.pushAndRemoveUntil(
-  context,
-  MaterialPageRoute(
-    builder: (context) => widget,
-  ),
-    (Route<dynamic> route) => false,
-);
+void showToast({
+  @required String text,
+  @required ToastState state,
+}) =>
+    Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 5,
+      backgroundColor: chooseToastColor(state),
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+
+enum ToastState { SUCCESS, ERROR, WARNING }
+
+Color chooseToastColor(ToastState state) {
+  Color color;
+  switch (state) {
+    case ToastState.SUCCESS:
+      color = Colors.green;
+      break;
+    case ToastState.ERROR:
+      color = Colors.red;
+      break;
+    case ToastState.WARNING:
+      color = Colors.amber;
+      break;
+      return color;
+  }
+}
+
+Widget buildListProduct(model, context,{bool isOldPrice = true}) => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        height: 120,
+        child: Row(
+          children: [
+            Stack(
+
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Image(
+
+                  image: NetworkImage(model.image),
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
+                if (model.discount != 0 && isOldPrice)
+                  Container(
+
+                    color: Colors.red,
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: Text(
+                      'DISCOUNT',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    model.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 18, height: 1.1),
+                  ),
+                  Spacer(),
+                  Row(
+                    children: [
+                      Text(
+                        model.price.toString(),
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: defaultColor,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      if (model.discount != 0 && isOldPrice)
+                        Text(
+                          model.oldPrice.toString(),
+                          style: TextStyle(
+                              fontSize: 12.5,
+                              color: Colors.grey,
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                      Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          ShopCubit.get(context).changeFavorites(model.id);
+                        },
+                        icon: CircleAvatar(
+                          radius: 15,
+                          // backgroundColor: Colors.grey,
+                          //  ShopCubit.get(context).favourites[products.id]
+                          backgroundColor:
+                              ShopCubit.get(context).favourites[model.id]
+                                  ? defaultColor
+                                  : Colors.grey,
+                          child: Icon(
+                            Icons.favorite_border,
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                        // iconSize: 12,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );

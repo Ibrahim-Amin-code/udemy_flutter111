@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:udemy_flutter111/modules/shop_app/shop_login_screen/shop_login_screen.dart';
 import 'package:udemy_flutter111/shared/components/components.dart';
+import 'package:udemy_flutter111/shared/network/local/cache_helper.dart';
 import 'package:udemy_flutter111/shared/styles/colors.dart';
 
 class BoardingModel
@@ -48,6 +49,20 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
 
   bool isLast = false;
 
+  void submit() {
+    CacheHelper.saveData(
+      key: 'onBoarding',
+      value: true,
+    ).then((value) {
+      if (value) {
+        navigateAndFinish(
+          context,
+          ShopLoginScreen(),
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context)
   {
@@ -57,13 +72,9 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
       appBar: AppBar(
         actions: [
           defaultTextButton(
-              function: () {
-                navigateAndFinish(
-                  context,
-                  ShopLoginScreen(),
-                );
-              },
-              text: 'skip'),
+              function: submit,
+              text: 'skip',
+          ),
         ],
       ),
       body:Padding(
@@ -115,7 +126,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 {
                   if(isLast)
                   {
-                    navigateAndFinish(context, ShopLoginScreen(),);
+                    submit();
                   }else{
                     boardController.nextPage(
                       duration: Duration(

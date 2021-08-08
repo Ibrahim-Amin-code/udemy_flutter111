@@ -7,6 +7,7 @@ import 'colors.dart';
 
 ThemeData lightTheme = ThemeData(
 
+
   primarySwatch: defaultColor,
   scaffoldBackgroundColor: Colors.white,
   appBarTheme: AppBarTheme(        // فيه حجات خاصه بال appBar بس هتطبق علي الابلكيشن كله
@@ -30,7 +31,7 @@ ThemeData lightTheme = ThemeData(
 
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
-    selectedItemColor: Colors.orange,
+    selectedItemColor: defaultColor,
     elevation: 20,
     unselectedItemColor: Colors.grey,
     backgroundColor:Colors.white,
@@ -45,8 +46,9 @@ ThemeData lightTheme = ThemeData(
   ),
 
 );
-ThemeData darkTheme = ThemeData(
 
+
+ThemeData darkTheme = ThemeData(
 
   primarySwatch: defaultColor,
   scaffoldBackgroundColor: HexColor('333739'),
@@ -71,7 +73,7 @@ ThemeData darkTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 20,
     type: BottomNavigationBarType.fixed,
-    selectedItemColor: Colors.orange,
+    selectedItemColor: defaultColor,
     unselectedItemColor: Colors.grey,
     backgroundColor: HexColor('333739'),
   ),
