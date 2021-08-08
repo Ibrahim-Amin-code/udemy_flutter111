@@ -19,7 +19,7 @@ class CacheHelper
   }
 
 
-  static bool getBooleana({
+  static bool getBoolean({
     @required String key,
   })
   {

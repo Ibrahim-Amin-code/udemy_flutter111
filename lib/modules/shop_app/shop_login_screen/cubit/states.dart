@@ -8,9 +8,9 @@ class ShopLoginLoadingState extends ShopLoginStates{}
 
 class ShopLoginSuccessState extends ShopLoginStates
 {
-  // final ShopLoginModel loginModel;
-  //
-  // ShopLoginSuccessState(this.loginModel);
+  final ShopLoginModel loginModel;
+
+  ShopLoginSuccessState(this.loginModel);
 }
 
 class ShopLoginErrorState extends ShopLoginStates{

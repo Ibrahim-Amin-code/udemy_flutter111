@@ -6,7 +6,7 @@ import 'package:udemy_flutter111/modules/todo_app/archived_tasks/archived_tasks_
 import 'package:udemy_flutter111/modules/todo_app/done_etasks/done_tasks_screen.dart';
 import 'package:udemy_flutter111/modules/todo_app/new_tasks/new_tasks_screen.dart';
 import 'package:udemy_flutter111/shared/cubit/states.dart';
-import 'package:udemy_flutter111/shared/network/remote/cache_helper.dart';
+import 'package:udemy_flutter111/shared/network/local/cache_helper.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());

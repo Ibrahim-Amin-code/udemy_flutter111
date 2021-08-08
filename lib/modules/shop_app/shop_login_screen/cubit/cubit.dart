@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:udemy_flutter111/models/shop_app/login_model.dart';
-import 'package:udemy_flutter111/modules/shop_app/shop_register_screen/cubit/states.dart';
-import 'package:udemy_flutter111/shared/network/end_points.dart';
+import 'package:udemy_flutter111/modules/shop_app/shop_login_screen/cubit/states.dart';
+import 'package:udemy_flutter111/shared/network/remote/end_points.dart';
 import 'package:udemy_flutter111/shared/network/remote/dio_helper.dart';
 
 class ShopLoginCubit extends Cubit<ShopLoginStates>
@@ -17,7 +17,7 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>
   bool isPassword = true;
 
 
-  ShopLoginModel loginModel;
+   ShopLoginModel loginModel;
 
   void changePasswordVisibility()
   {
@@ -39,12 +39,14 @@ class ShopLoginCubit extends Cubit<ShopLoginStates>
          'email':email,
          'password':password,
        },).then((value) {
-         print(value.data);
+          // print(value.data);
+         loginModel = ShopLoginModel.fromJon(value.data);
+
          // loginModel = ShopLoginModel.fromJson(value.data);
          // print(loginModel.status);
          // print(loginModel.message);
          // print(loginModel.data.token);
-         emit(ShopLoginSuccessState());
+         emit(ShopLoginSuccessState(loginModel));
    }).catchError((error){
      print('error is $error ');
      emit(ShopLoginErrorState(error.toString()));
